@@ -1,0 +1,13 @@
+钱包管理私钥
+1.一个手机只能对应一个区块链账号
+	uni存储
+	以phone为key
+	存储 phone,password,account
+2.先不考虑AES数据存储映射
+3.考虑AES数据存储映射
+
+
+
+
+
+

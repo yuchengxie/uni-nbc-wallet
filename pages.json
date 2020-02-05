@@ -1,0 +1,15 @@
+{
+	"pages": [{
+		"path": "pages/transfer/transfer",
+		"style": {}
+	}, {
+		"path": "pages/index/index",
+		"style": {}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "区块链电商钱包",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}

@@ -288,6 +288,19 @@ var render = function() {
           }
         },
         [_vm._v("转账")]
+      ),
+      _c(
+        "v-uni-button",
+        {
+          staticClass: _vm._$g(8, "sc"),
+          attrs: { type: "primary", _i: 8 },
+          on: {
+            click: function($event) {
+              return _vm.$handleViewEvent($event)
+            }
+          }
+        },
+        [_vm._v("查询账号余额")]
       )
     ],
     1

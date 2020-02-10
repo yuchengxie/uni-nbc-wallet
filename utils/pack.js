@@ -4,6 +4,26 @@ const bitcoinjs = require('bitcoinjs-lib');
 
 const magic = Buffer.from([0xf9, 0x6e, 0x62, 0x74]);
 
+let AccState = {
+	fromStream(b) {
+		let obj = {};
+		let f = 0,
+			v = 0;
+		[f, v] = ftNumberI(b, f);
+		obj.link_no = v;
+		[f, v] = ftNumberI(b, f);
+		obj.timestamp = v;
+		[f, v] = ftVarString(b, f);
+		v=Buffer.from(v,'hex');
+		obj.account=v.toString('latin1');
+		[f, v] = ftNumberI(b, f);
+		obj.search = v;
+		[f, v] = arrayOf(b, f, ftUockValue);
+		obj.found = v;
+		return obj;
+	}
+}
+
 let UdpReject = {
 	fromStream(b) {
 		let obj = {};
@@ -269,11 +289,32 @@ function ftBytes(buf, f, len) {
 	return [f, v];
 }
 
+function ftNumberH(buf, f) {
+	let b = buf.slice(f, f + 2);
+	let v = b.readUInt16LE(0);
+	f += 2;
+	return [f, v];
+}
+
 function ftNumberI(buf, f) {
 	let b = buf.slice(f, f + 4);
 	let v = b.readUInt32LE(0);
 	f += 4;
 	return [f, v];
+}
+
+function ftUockValue(buf, f) {
+	let obj = {},
+		v;
+	[f, v] = ftNumberq_s(buf, f);
+	obj.uock = v;
+	[f, v] = ftNumberq_n(buf, f);
+	obj.value = v;
+	[f, v] = ftNumberI(buf, f);
+	obj.height = v;
+	[f, v] = ftNumberH(buf, f);
+	obj.vcn = v;
+	return [f, obj];
 }
 
 function ftNumberq_s(buf, f) {
@@ -476,8 +517,6 @@ function unpack_header(data) {
 	var command = data.slice(4, 16);
 	var stripCommand = strip(command);
 	var msg_type = stripCommand.toString('latin1');
-	// console.log('> msg_type:', msg_type, msg_type.length);
-	// return payload;
 	return [payload, msg_type];
 }
 
@@ -515,10 +554,11 @@ function dhash(txn_binary) {
 }
 
 module.exports = {
+	AccState: AccState,
 	MakeSheet: MakeSheet,
 	OrgSheet: OrgSheet,
-	UdpConfirm:UdpConfirm,
-	UdpReject:UdpReject,
+	UdpConfirm: UdpConfirm,
+	UdpReject: UdpReject,
 	make_payload: make_payload,
 	Transaction: Transaction,
 	unpack_header: unpack_header,

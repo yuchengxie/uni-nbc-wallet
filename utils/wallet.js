@@ -92,7 +92,6 @@ function publickey_to_hash(pubkey) {
 function sign(buf, w) {
   if (!w) return '';
   let hash = bitcoinjs.crypto.hash256(buf);
-  // let hash = bitcoinjs.crypto.hash256(bitcoinjs.crypto.hash256(buf));
   let prvkey_buf = bufferhelp.hexStrToBuffer(w.prvkey);
 
   let b = bip32.fromPrivateKey(prvkey_buf, new Buffer(32));
